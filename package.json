@@ -1,0 +1,27 @@
+{
+  "name": "nodeserver",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "start": "node ./bin/www",
+    "test": "node_modules/.bin/mocha",
+    "product": "node_modules/.bin/forever start ./bin/www"
+  },
+  "dependencies": {
+    "axios": "^0.16.2",
+    "bluebird": "^3.5.0",
+    "body-parser": "~1.17.1",
+    "cookie-parser": "~1.4.3",
+    "debug": "~2.6.3",
+    "express": "~4.15.2",
+    "express-session": "^1.15.3",
+    "forever": "^0.15.3",
+    "hbs": "~4.0.1",
+    "mongoose": "^4.11.1",
+    "morgan": "~1.8.1",
+    "serve-favicon": "~2.4.2"
+  },
+  "devDependencies": {
+    "mocha": "^3.4.2"
+  }
+}

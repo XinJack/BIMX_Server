@@ -9,6 +9,7 @@ var session = require('express-session');
 var User = require('./lib/User.js');
 var Model = require('./lib/Model.js');
 var Token = require('./lib/Token.js');
+var Video = require('./lib/Video.js');
 
 var app = express();
 
@@ -80,8 +81,6 @@ app.get('/logout', function(req, res){
 });
 
 app.get('/api/models', function(req, res){
-  console.log(req.session.hasLogin);
-  console.log(req.session.loginRole);
   Model.getModelsByAllow(req.session.loginRole)
       .then(function(models){
           res.json({
@@ -119,6 +118,24 @@ app.get('/api/viewToken', function(req, res){
             'message': 'cannot get access token'
         });
     });
+});
+
+app.get('/api/video', function(req, res){
+    var modelId = req.query.modelId;
+    var objectId = req.query.objectId;
+    Video.getPlayerOptions(modelId, objectId)
+        .then(function(options){
+            res.json({
+                'code': 'success',
+                'data': options
+            });
+        }).catch(function(err){
+            console.log(err);
+            res.json({
+                'code': 'fail',
+                'message': 'failed to get video player options'
+            });
+        });
 });
 
 

@@ -22,7 +22,7 @@ describe('#Token', function(){
        });
     });
 
-    describe.only('##getViewToken', function(){
+    describe('##getViewToken', function(){
         it('1115521327153344 and normal should return a non empty string', function(done){
             Token.getViewToken('1115521327153344', 'normal')
                 .then(function(token){

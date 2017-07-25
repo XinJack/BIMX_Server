@@ -5,6 +5,8 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var session = require('express-session');
+var fs = require('fs');
+var FileStreamRotator = require('file-stream-rotator');
 
 var User = require('./lib/User.js');
 var Model = require('./lib/Model.js');
@@ -19,7 +21,14 @@ app.set('view engine', 'hbs');
 
 // uncomment after placing your favicon in /public
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
-app.use(logger('dev'));
+app.use(logger('combined', {
+  stream: FileStreamRotator.getStream({
+    date_format: 'YYYY-MM-DD',
+    filename: path.join(__dirname, '/logs/access-%DATE%.log'),
+    frequency: 'daily',
+    verbose: false
+  })
+}));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
@@ -60,13 +69,13 @@ app.post('/login', function(req, res){
   })
 });
 
-app.use(function(req, res, next){
-  if(req.session.hasLogin){
-    next();
-  }else{
-    res.redirect('/login');
-  }
-});
+// app.use(function(req, res, next){
+//   if(req.session.hasLogin){
+//     next();
+//   }else{
+//     res.redirect('/login');
+//   }
+// });
 
 app.get('/', function(req, res){
   res.sendFile(__dirname + '/views/index.html');

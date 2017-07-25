@@ -8,10 +8,7 @@ var session = require('express-session');
 var fs = require('fs');
 var FileStreamRotator = require('file-stream-rotator');
 
-var User = require('./lib/User.js');
-var Model = require('./lib/Model.js');
-var Token = require('./lib/Token.js');
-var Video = require('./lib/Video.js');
+var apiRoutes = require('./routes/api.js');
 
 var app = express();
 
@@ -69,13 +66,14 @@ app.post('/login', function(req, res){
   })
 });
 
-// app.use(function(req, res, next){
-//   if(req.session.hasLogin){
-//     next();
-//   }else{
-//     res.redirect('/login');
-//   }
-// });
+// 中间件，保证下面的路由必须在登录后才可以访问
+app.use(function(req, res, next){
+  if(req.session.hasLogin){
+    next();
+  }else{
+    res.redirect('/login');
+  }
+});
 
 app.get('/', function(req, res){
   res.sendFile(__dirname + '/views/index.html');
@@ -89,64 +87,7 @@ app.get('/logout', function(req, res){
    });
 });
 
-app.get('/api/models', function(req, res){
-  Model.getModelsByAllow(req.session.loginRole)
-      .then(function(models){
-          res.json({
-              'code': 'success',
-              'data': models
-          });
-      }).catch(function(err){
-        console.log(err);
-        res.json({
-            'code': 'error',
-            'data': []
-        })
-  })
-});
-
-app.get('/api/viewToken', function(req, res){
-    var modelId = req.query.modelId;
-    var modelType = req.query.modelType;
-    Token.getViewToken(modelId, modelType)
-        .then(function(token){
-            if(token !== ''){
-                res.json({
-                    'code': 'success',
-                    'data': token
-                });
-            }else{
-                res.json({
-                    'code': 'fail',
-                    'message': 'cannot get access token'
-                });
-            }
-        }).catch(function(err){
-        res.json({
-            'code': 'fail',
-            'message': 'cannot get access token'
-        });
-    });
-});
-
-app.get('/api/video', function(req, res){
-    var modelId = req.query.modelId;
-    var objectId = req.query.objectId;
-    Video.getPlayerOptions(modelId, objectId)
-        .then(function(options){
-            res.json({
-                'code': 'success',
-                'data': options
-            });
-        }).catch(function(err){
-            console.log(err);
-            res.json({
-                'code': 'fail',
-                'message': 'failed to get video player options'
-            });
-        });
-});
-
+app.use('/api', apiRoutes);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

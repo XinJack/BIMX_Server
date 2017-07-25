@@ -8,6 +8,7 @@ var session = require('express-session');
 var fs = require('fs');
 var FileStreamRotator = require('file-stream-rotator');
 
+var User = require('./lib/User.js');
 var apiRoutes = require('./routes/api.js');
 
 var app = express();

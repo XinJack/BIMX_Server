@@ -1,7 +1,6 @@
 var express = require('express');
 var router = express.Router();
 
-var User = require('../lib/User.js');
 var Model = require('../lib/Model.js');
 var Token = require('../lib/Token.js');
 var Video = require('../lib/Video.js');

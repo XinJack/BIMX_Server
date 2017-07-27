@@ -7,6 +7,11 @@ var bodyParser = require('body-parser');
 var session = require('express-session');
 var fs = require('fs');
 var FileStreamRotator = require('file-stream-rotator');
+var mongoose = require('mongoose');
+
+// 设置mongo数据库并连接数据库
+mongoose.Promise = require('bluebird');
+mongoose.connect('mongodb://localhost:27017/BIMFace');
 
 var User = require('./lib/User.js');
 var apiRoutes = require('./routes/api.js');

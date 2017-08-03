@@ -1,7 +1,7 @@
 var assert = require('assert');
 var Data = require('../lib/Data.js');
 
-describe.only('#Data', function() {
+describe('#Data', function() {
 	describe('#getEChartOption', function() {
 		it('##modelId 1058899859071168, objectId 385761, type temperature should return a non empty object', function(done){
 			Data.getEChartOption('1058899859071168', '385761', 'temperature')

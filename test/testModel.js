@@ -24,4 +24,31 @@ describe('#Model', function() {
             });
         });
     });
+
+    describe('##getModelsByOwner', function(){
+        it('owner admin should return a non-empty array', function(done) {
+            Model.getModelsByOwner('admin').then(function(models){
+                assert.ok(models.length > 0);
+                done();
+            }).catch(function(err){
+                console.log(err);
+                done();
+            });
+        });
+        
+        it('owner guest should return a non-empty array', function(done) {
+            Model.getModelsByOwner('guest').then(function(models){
+                assert.ok(models.length > 0);
+                done();
+            });
+        });
+        
+        it('owner test should return an empty array', function(done) {
+            Model.getModelsByOwner('test').then(function(models){
+                assert.ok(models.length === 0);
+                done();
+            });
+        });
+
+    });
 });

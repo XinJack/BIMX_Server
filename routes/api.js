@@ -7,19 +7,19 @@ var Video = require('../lib/Video.js');
 var Data = require('../lib/Data.js');
 
 router.get('/models', function(req, res){
-  Model.getModelsByAllow(req.session.loginRole)
-      .then(function(models){
-          res.json({
-              'code': 'success',
-              'data': models
-          });
-      }).catch(function(err){
+  Model.getModelsByOwner(req.session.loginRole)
+    .then(function(models){
+        res.json({
+            'code': 'success',
+            'data': models
+        });
+    }).catch(function(err){
         console.log(err);
         res.json({
             'code': 'error',
             'data': []
-        })
-  })
+        });
+    });
 });
 
 router.get('/viewToken', function(req, res){

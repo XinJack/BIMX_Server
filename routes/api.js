@@ -11,12 +11,14 @@ router.get('/models', function(req, res){
     .then(function(models){
         res.json({
             'code': 'success',
+            'userRole': req.session.loginRole,
             'data': models
         });
     }).catch(function(err){
         console.log(err);
         res.json({
             'code': 'error',
+            'userRole': req.session.loginRole,
             'data': []
         });
     });

@@ -5,6 +5,7 @@ var Model = require('../lib/Model.js');
 var Token = require('../lib/Token.js');
 var Video = require('../lib/Video.js');
 var Data = require('../lib/Data.js');
+var Bookmark = require('../lib/Bookmark.js');
 
 router.get('/models', function(req, res){
   Model.getModelsByOwner(req.session.loginRole)
@@ -81,6 +82,44 @@ router.get('/data', function(req, res){
             res.json({
                 'code': 'fail',
                 'message': 'failed to get echart data option'
+            });
+        });
+});
+
+router.get('/bookmarks', function(req, res) {
+    var modelId = req.query.modelId;
+    Bookmark.getBookmarksByModelId(modelId)
+        .then(function(bookmarks){
+            res.json({
+                'code': 'success',
+                'data': bookmarks
+            });
+        }).catch(function(err){
+            console.log(err);
+            res.json({
+                'code': 'fail',
+                'message': 'failed to get bookmarks information of ' + modelId
+            });
+        })
+});
+
+router.put('/bookmarks', function(req, res) {
+    console.log('put bookmarks');
+    var modelId = req.body.modelId;
+    var bookmarks = req.body.bookmarks;
+    Bookmark.updateBookmarksByModelId(modelId, bookmarks)
+        .then(function(result){
+            if(result) res.json({
+                'code': 'success'
+            });
+            else res.json({
+                'code': 'fail',
+                'message': 'failed to update bookmarks information of ' + modelId
+            });
+        }).catch(function(err) {
+            res.json({
+                'code': 'fail',
+                'message': 'failed to update bookmarks information of ' + modelId
             });
         });
 });

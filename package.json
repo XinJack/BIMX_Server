@@ -6,7 +6,7 @@
     "dev": "nodemon ./bin/www",
     "start": "node ./bin/www",
     "test": "node_modules/.bin/mocha",
-    "product": "node_modules/.bin/forever start ./bin/www"
+    "product": "pm2 start ./bin/www"
   },
   "dependencies": {
     "axios": "^0.16.2",
@@ -17,7 +17,6 @@
     "express": "~4.15.2",
     "express-session": "^1.15.3",
     "file-stream-rotator": "^0.1.0",
-    "forever": "^0.15.3",
     "hbs": "~4.0.1",
     "mongoose": "^4.11.1",
     "morgan": "~1.8.1",

@@ -104,7 +104,6 @@ router.get('/bookmarks', function(req, res) {
 });
 
 router.put('/bookmarks', function(req, res) {
-    console.log('put bookmarks');
     var modelId = req.body.modelId;
     var bookmarks = req.body.bookmarks;
     Bookmark.updateBookmarksByModelId(modelId, bookmarks)
